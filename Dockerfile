@@ -3,7 +3,13 @@ FROM rtfpessoa/ubuntu-compose:latest
 MAINTAINER Franck Delage <franck@web82.fr>
 
 RUN apt-get update && apt-get install -qq -y --no-install-recommends \
-    ca-certificates curl unzip
+    ca-certificates curl unzip software-property-common apt-transport-https
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+RUN add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+RUN apt-get update && apt-get install -qq -y docker-ce
 
 ARG RANCHER_COMPOSE_VERSION=0.12.5
 
